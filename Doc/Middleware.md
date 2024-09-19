@@ -1,3 +1,6 @@
+### [Home](../README.md)
+
+
 # 1. Middleware trong ASP.NET Core
 ## 1.1. Khái niệm
 Request pipeline là một cơ chế xử lý một request đầu vào và kết thúc với đầu ra là một response.
