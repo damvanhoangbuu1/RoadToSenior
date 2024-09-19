@@ -26,6 +26,7 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-app.UseMiddleware<CustomeMiddleware>();
+//app.UseMiddleware<CustomeMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.Run();
