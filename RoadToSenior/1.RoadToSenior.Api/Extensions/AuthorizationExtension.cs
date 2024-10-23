@@ -1,4 +1,7 @@
-﻿namespace _1.RoadToSenior.Api.Extensions
+﻿using _1.RoadToSenior.Api.Models.Auth;
+using _1.RoadToSenior.Api.Models.Common;
+
+namespace _1.RoadToSenior.Api.Extensions
 {
     public static class AuthorizationExtension
     {
@@ -6,15 +9,15 @@
         {
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("AdminAndEdit", policy =>
+                options.AddPolicy(Policy.AdminEdit.ToString(), policy =>
                     policy.RequireAssertion(context =>
-                        context.User.IsInRole("Admin") &&
-                        context.User.HasClaim("Permission", "Edit")));
+                        context.User.IsInRole(Role.Admin.ToString()) &&
+                        context.User.HasClaim("Permission", Permission.Edit.ToString())));
 
-                options.AddPolicy("AdminAndView", policy =>
+                options.AddPolicy(Policy.AdminView.ToString(), policy =>
                     policy.RequireAssertion(context =>
-                        context.User.IsInRole("Admin") &&
-                        context.User.HasClaim("Permission", "View")));
+                        context.User.IsInRole(Role.Admin.ToString()) &&
+                        context.User.HasClaim("Permission", Permission.Wiew.ToString())));
             });
 
             return services;
