@@ -6,7 +6,7 @@ using System.Security.Claims;
 
 namespace _1.RoadToSenior.Api.Filter
 {
-    [AttributeUsage(AttributeTargets.Class)]
+    [AttributeUsage(AttributeTargets.Method)]
     public class PolicyAuthorizeAttribute : Attribute, IAuthorizationFilter
     {
         private readonly PolicyProperty _policy;
@@ -28,7 +28,7 @@ namespace _1.RoadToSenior.Api.Filter
         {
             if (context.HttpContext.User.Identity == null || !context.HttpContext.User.Identity.IsAuthenticated)
             {
-                context.Result = new JsonResult(new { message = "Xin lỗi vì sự cố, bạn chưa đăng nhập." }) { StatusCode = StatusCodes.Status401Unauthorized };
+                context.Result = new JsonResult(new { message = "Sorry, you are not logged in." }) { StatusCode = StatusCodes.Status401Unauthorized };
                 return;
             }
 
@@ -42,7 +42,7 @@ namespace _1.RoadToSenior.Api.Filter
 
             if (!userRoles.Contains(_policy.Role.ToString()) || !userPermissions.Contains(_policy.Permission.ToString()))
             {
-                context.Result = new JsonResult(new { message = "Xin lỗi vì sự cố, bạn không có quyền truy cập." }) { StatusCode = StatusCodes.Status401Unauthorized };
+                context.Result = new JsonResult(new { message = "Sorry, you do not have access." }) { StatusCode = StatusCodes.Status401Unauthorized };
             }
         }
     }
