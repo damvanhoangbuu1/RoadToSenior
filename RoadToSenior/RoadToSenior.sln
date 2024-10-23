@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoadToSenior", "RoadToSenior\RoadToSenior.csproj", "{58C5B0EB-0952-407A-9305-7BDFF5C58B20}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RoadToSenior", "RoadToSenior\RoadToSenior.csproj", "{58C5B0EB-0952-407A-9305-7BDFF5C58B20}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "1.RoadToSenior.Api", "1.RoadToSenior.Api\1.RoadToSenior.Api.csproj", "{91508F3D-B3CA-46CE-97D7-B5B1A5F75AA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{58C5B0EB-0952-407A-9305-7BDFF5C58B20}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58C5B0EB-0952-407A-9305-7BDFF5C58B20}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58C5B0EB-0952-407A-9305-7BDFF5C58B20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{91508F3D-B3CA-46CE-97D7-B5B1A5F75AA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{91508F3D-B3CA-46CE-97D7-B5B1A5F75AA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{91508F3D-B3CA-46CE-97D7-B5B1A5F75AA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{91508F3D-B3CA-46CE-97D7-B5B1A5F75AA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
