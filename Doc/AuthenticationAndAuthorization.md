@@ -423,11 +423,101 @@ namespace _1.RoadToSenior.Api.Extensions
 **Bước 3:**
 `Program.cs`
 
-```c
+```c#
 builder.Services.AddSwaggerDocumentation();
 
 builder.Services.AddJWTAuthentication(builder.Configuration);
 builder.Services.AddAuthorizationWithPolicy();
 
 var app = builder.Build();
+```
+
+**Bước 4.**
+
+Config comment xml trên swagger
+
+Thêm vào `SwaggerExtension.cs`
+```c#
+public static IServiceCollection AddSwaggerDocumentation(this IServiceCollection services, IWebHostEnvironment environment)
+{
+    if (environment.IsDevelopment())
+    {
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(c =>
+        {
+            var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+            c.IncludeXmlComments(xmlPath);
+        });
+    }
+    // Anthor swagger config
+
+    return services
+}
+```
+
+Thêm vào file `.csprj` 
+
+```
+<PropertyGroup>
+  <GenerateDocumentationFile>true</GenerateDocumentationFile>
+  <NoWarn>$(NoWarn);1591</NoWarn>
+</PropertyGroup>
+```
+
+## 2.8. Custom Filter Authorize
+
+```c#
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
+using System.Security.Claims;
+
+[AttributeUsage(AttributeTargets.Method)]
+public class AuthorizeAttribute : Attribute, IAuthorizationFilter
+{
+    private readonly Role _role;
+    public AuthorizeAttribute(Role role) { 
+        _role = role;
+    }
+
+
+    public void OnAuthorization(AuthorizationFilterContext context)
+    {
+        if (context.HttpContext.User.Identity == null || !context.HttpContext.User.Identity.IsAuthenticated)
+        {
+            context.Result = new JsonResult(new { message = "Sorry, you are not logged in." }) { StatusCode = StatusCodes.Status401Unauthorized };
+            return;
+        }
+
+        var userRoles = context.HttpContext.User.Claims
+            .Where(c => c.Type == ClaimTypes.Role)
+            .Select(c => c.Value);
+
+        if (!userRoles.Contains(_role.ToString()))
+        {
+            context.Result = new JsonResult(new { message = "Sorry, you do not have access." }) { StatusCode = StatusCodes.Status401Unauthorized };
+        }
+    }
+}
+```
+
+Tạo class mới kế thừa class Attribute và interface IAuthorizationFilter
+
+Trong phương thức OnAuthorization có thể tuỳ chỉnh filter theo ý của bạn.
+
+Khi sử dụng chỉ cần dùng theo cú pháp `[Attribute-name(role-name)]`, `role-name` tuỳ theo hàm dựng có thể là string hoặc enum, ở ví dụ trên dùng enum.
+
+```c#
+[Authorize(Role.Admin)]
+[HttpGet("GetWeatherForecast")]
+public IEnumerable<WeatherForecast> Get()
+{
+    return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+    {
+        Date = DateTime.Now.AddDays(index),
+        TemperatureC = Random.Shared.Next(-20, 55),
+        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+    })
+    .ToArray();
+}
 ```
