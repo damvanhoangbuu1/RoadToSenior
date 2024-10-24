@@ -15,6 +15,11 @@ namespace _1.RoadToSenior.Api.Controllers
             _jwtTokenHelper = jwtTokenHelper;
         }
 
+        /// <summary>
+        /// login
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost("login")]
         public IActionResult Login([FromBody] LoginModel model)
         {

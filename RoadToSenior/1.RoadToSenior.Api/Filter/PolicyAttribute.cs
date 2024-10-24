@@ -7,10 +7,10 @@ using System.Security.Claims;
 namespace _1.RoadToSenior.Api.Filter
 {
     [AttributeUsage(AttributeTargets.Method)]
-    public class PolicyAuthorizeAttribute : Attribute, IAuthorizationFilter
+    public class PolicyAttribute : Attribute, IAuthorizationFilter
     {
         private readonly PolicyProperty _policy;
-        public PolicyAuthorizeAttribute(Policy policy)
+        public PolicyAttribute(Policy policy)
         {
             _policy = GetPolicyProperty(policy);
         }
