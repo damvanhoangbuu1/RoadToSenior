@@ -1,4 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Auth0.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace _1.RoadToSenior.Api.Controllers
 {
@@ -7,6 +11,39 @@ namespace _1.RoadToSenior.Api.Controllers
         public IActionResult Index()
         {
             return View();
+        }
+
+        public async Task Login(string returnUrl = "/Home/Profile")
+        {
+            var authenticationProperties = new LoginAuthenticationPropertiesBuilder()
+                // Indicate here where Auth0 should redirect the user after a login.
+                // Note that the resulting absolute Uri must be added to the
+                // **Allowed Callback URLs** settings for the app.
+                .WithScope("openid profile scope1 scope2")
+                .WithRedirectUri(returnUrl)
+                .Build();
+
+            await HttpContext.ChallengeAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
+        }
+
+        [Authorize]
+        public IActionResult Profile()
+        {
+            return View();
+        }
+
+        [Authorize]
+        public async Task Logout()
+        {
+            var authenticationProperties = new LogoutAuthenticationPropertiesBuilder()
+                // Indicate here where Auth0 should redirect the user after a logout.
+                // Note that the resulting absolute Uri must be added to the
+                // **Allowed Logout URLs** settings for the app.
+                .WithRedirectUri(Url.Action("Index", "Home"))
+                .Build();
+
+            await HttpContext.SignOutAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
     }
 }

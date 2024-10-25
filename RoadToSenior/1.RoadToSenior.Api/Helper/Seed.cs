@@ -1,6 +1,6 @@
 ﻿using _1.RoadToSenior.Api.Models.Auth;
 
-namespace _1.RoadToSenior.Api
+namespace _1.RoadToSenior.Api.Helper
 {
     public class Seed
     {

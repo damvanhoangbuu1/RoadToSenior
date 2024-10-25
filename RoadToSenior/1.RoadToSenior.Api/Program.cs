@@ -1,6 +1,13 @@
-using _1.RoadToSenior.Api.Extensions;
+﻿using _1.RoadToSenior.Api.Extensions;
+using Auth0.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddAuth0WebAppAuthentication(options =>
+{
+    options.Domain = builder.Configuration["Auth0:Domain"];
+    options.ClientId = builder.Configuration["Auth0:ClientId"];
+});
 
 // Add services to the container.
 
@@ -12,6 +19,8 @@ builder.Services.AddSwaggerDocumentation(builder.Environment);
 
 builder.Services.AddJWTAuthentication(builder.Configuration);
 builder.Services.AddAuthorizationWithPolicy();
+
+builder.Services.ConfigureSameSiteNoneCookies();
 
 var app = builder.Build();
 
