@@ -45,5 +45,31 @@ namespace _2.RoadToSenior.Auth0.Controllers
             await HttpContext.SignOutAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
         }
+
+        public async Task Signup(string returnUrl = "/")
+        {
+            var authenticationProperties = new LoginAuthenticationPropertiesBuilder()
+                .WithParameter("screen_hint", "signup")
+                .WithRedirectUri(returnUrl)
+                .Build();
+
+            await HttpContext.ChallengeAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);
+        }
+
+        public IActionResult EmailVerification()
+        {
+            return View();
+        }
+
+        [Authorize(Roles = "Admin")]
+        public IActionResult AdminPage()
+        {
+            return View();
+        }
+
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
     }
 }
