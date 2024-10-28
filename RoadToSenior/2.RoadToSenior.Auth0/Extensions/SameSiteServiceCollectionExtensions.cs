@@ -1,4 +1,4 @@
-﻿namespace _1.RoadToSenior.Api.Extensions
+﻿namespace _2.RoadToSenior.Auth0.Extensions
 {
     public static class SameSiteServiceCollectionExtensions
     {
