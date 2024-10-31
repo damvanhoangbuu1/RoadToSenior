@@ -26,7 +26,7 @@ namespace _2.RoadToSenior.Auth0.Controllers
         {
             return View(new
             {
-                Name = User.Identity.Name,
+                User.Identity?.Name,
                 EmailAddress = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value,
                 ProfileImage = User.Claims.FirstOrDefault(c => c.Type == "picture")?.Value,
                 Role = User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Role)?.Value
@@ -40,7 +40,7 @@ namespace _2.RoadToSenior.Auth0.Controllers
                 // Indicate here where Auth0 should redirect the user after a logout.
                 // Note that the resulting absolute Uri must be added to the
                 // **Allowed Logout URLs** settings for the app.
-                .WithRedirectUri(Url.Action("Index", "Home"))
+                .WithRedirectUri(Url.Action("Index", "Home") ?? string.Empty)
                 .Build();
 
             await HttpContext.SignOutAsync(Auth0Constants.AuthenticationScheme, authenticationProperties);

@@ -6,3 +6,6 @@
 /RoadToSenior/1.RoadToSenior.Api/Properties/PublishProfiles
 /RoadToSenior/2.RoadToSenior.Auth0/bin
 /RoadToSenior/2.RoadToSenior.Auth0/obj
+/RoadToSenior/3.RoadToSenior.Identiy/obj
+/RoadToSenior/3.RoadToSenior.Identiy/bin
+/RoadToSenior/.idea
