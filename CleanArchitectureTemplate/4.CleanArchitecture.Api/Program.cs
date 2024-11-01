@@ -1,8 +1,5 @@
-﻿using _2.CleanArchitecture.Application.Common.Interfaces;
-using _2.CleanArchitecture.Application.Features.Auth.Commands;
-using _3.CleanArchitecture.Infrastructure;
+﻿using _3.CleanArchitecture.Infrastructure;
 using _3.CleanArchitecture.Infrastructure.Persistence;
-using _3.CleanArchitecture.Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 

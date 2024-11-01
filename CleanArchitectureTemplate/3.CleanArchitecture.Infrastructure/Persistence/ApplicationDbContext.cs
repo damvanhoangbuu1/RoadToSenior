@@ -3,7 +3,6 @@ using _1.CleanArchitecture.Domain.Entities;
 using _2.CleanArchitecture.Application.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
-using System;
 using System.Reflection;
 
 namespace _3.CleanArchitecture.Infrastructure.Persistence
