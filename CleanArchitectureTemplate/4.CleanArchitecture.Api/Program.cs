@@ -1,5 +1,7 @@
-﻿using _3.CleanArchitecture.Infrastructure;
+﻿using _2.CleanArchitecture.Application;
+using _3.CleanArchitecture.Infrastructure;
 using _3.CleanArchitecture.Infrastructure.Persistence;
+using _4.CleanArchitecture.Api.Middleware;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
@@ -38,9 +40,9 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 // Add application services
-builder.Services.AddHttpContextAccessor();
+builder.Services.AddInfrastructureServices(builder.Configuration);
+builder.Services.AddApplicationServices();
 
-builder.Services.AddInfrastructure(builder.Configuration);
 
 var app = builder.Build();
 
@@ -61,6 +63,11 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<LoggingMiddleware>();
+app.UseMiddleware<CurrentUserMiddleware>();
+app.UseMiddleware<ErrorHandledMiddleware>();
+
 app.MapControllers();
 
 app.Run();

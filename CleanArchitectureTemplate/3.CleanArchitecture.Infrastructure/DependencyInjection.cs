@@ -1,6 +1,8 @@
 ﻿using _2.CleanArchitecture.Application.Common.Interfaces;
-using _2.CleanArchitecture.Application.Features.Auth.Commands;
+using _2.CleanArchitecture.Application.Features.IRepositories;
+using _2.CleanArchitecture.Application.Features.IServices;
 using _3.CleanArchitecture.Infrastructure.Persistence;
+using _3.CleanArchitecture.Infrastructure.Repositories;
 using _3.CleanArchitecture.Infrastructure.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -13,9 +15,11 @@ namespace _3.CleanArchitecture.Infrastructure
 {
     public static class DependencyInjection
     {
-        public static IServiceCollection AddInfrastructure(this IServiceCollection services,
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services,
                                                            IConfiguration configuration)
         {
+            services.AddHttpContextAccessor();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseNpgsql(
                     configuration.GetConnectionString("DefaultConnection"),
@@ -24,11 +28,11 @@ namespace _3.CleanArchitecture.Infrastructure
             services.AddScoped<IApplicationDbContext>(provider =>
                 provider.GetRequiredService<ApplicationDbContext>());
 
-            services.AddScoped<ICurrentUserService, CurrentUserService>();
-
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(LoginCommandHandler).Assembly));
-
             services.AddTransient<ITokenService, TokenService>();
+
+            services.AddScoped<IUserRepository,UserRepository>();
+
+            services.AddScoped<IAuthService,AuthenService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
