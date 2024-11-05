@@ -31,10 +31,17 @@ namespace _4.CleanArchitecture.Api.Filters
 
         public void OnAuthorization(AuthorizationFilterContext context)
         {
-            // Skip authorization if action is decorated with [AllowAnonymous] attribute
+            // check loged in user
             if (!context.HttpContext.User.Identity.IsAuthenticated)
             {
                 context.Result = new JsonResult(new { message = "Sorry, you are not logged in." }) { StatusCode = StatusCodes.Status401Unauthorized };
+                return;
+            }
+
+            // skip if not set roles
+            if (_roles == null || _roles?.Length == 0)
+            {
+                return;
             }
 
             // Authorization

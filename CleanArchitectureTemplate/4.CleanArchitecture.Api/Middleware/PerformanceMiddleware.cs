@@ -1,5 +1,4 @@
-﻿using _2.CleanArchitecture.Application.Common.Interfaces;
-using _3.CleanArchitecture.Infrastructure.Persistence;
+﻿using _3.CleanArchitecture.Infrastructure.Persistence;
 using System.Diagnostics;
 using System.Security.Claims;
 

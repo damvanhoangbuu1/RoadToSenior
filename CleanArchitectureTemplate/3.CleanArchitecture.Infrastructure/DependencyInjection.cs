@@ -1,9 +1,10 @@
 ﻿using _2.CleanArchitecture.Application.Common.Interfaces;
 using _2.CleanArchitecture.Application.Features.IRepositories;
-using _2.CleanArchitecture.Application.Features.IServices;
+using _2.CleanArchitecture.Application.Features.Services;
 using _3.CleanArchitecture.Infrastructure.Persistence;
 using _3.CleanArchitecture.Infrastructure.Repositories;
 using _3.CleanArchitecture.Infrastructure.Services;
+using _3.CleanArchitecture.Infrastructure.Services.Commons;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -28,11 +29,12 @@ namespace _3.CleanArchitecture.Infrastructure
             services.AddScoped<IApplicationDbContext>(provider =>
                 provider.GetRequiredService<ApplicationDbContext>());
 
+            services.AddTransient<ICurrentUserService, CurrentUserService>();
             services.AddTransient<ITokenService, TokenService>();
 
-            services.AddScoped<IUserRepository,UserRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
 
-            services.AddScoped<IAuthService,AuthenService>();
+            services.AddScoped<IAuthService, AuthenService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

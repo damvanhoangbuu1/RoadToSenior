@@ -43,7 +43,6 @@ builder.Services.AddSwaggerGen(c =>
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
-
 var app = builder.Build();
 
 using (var scope = app.Services.CreateScope())

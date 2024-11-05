@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace _2.CleanArchitecture.Application.Common.Crypt
+﻿namespace _2.CleanArchitecture.Application.Helper
 {
     public static class CryptHelper
     {

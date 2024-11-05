@@ -1,6 +1,6 @@
 ﻿using _1.CleanArchitecture.Domain.Common;
 using _2.CleanArchitecture.Application.DTOs.Auth;
-using _2.CleanArchitecture.Application.Features.IServices;
+using _2.CleanArchitecture.Application.Features.Services;
 using _4.CleanArchitecture.Api.Filters;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,18 +24,40 @@ namespace _4.CleanArchitecture.Api.Controllers
             return Ok(response);
         }
 
+        [Authorize]
+        [HttpPost("update-infor")]
+        public async Task<ActionResult<Result<string>>> Update([FromBody] UpdateInforRequest request)
+        {
+            var response = await _authService.UpdateInfor(request);
+            return Ok(response);
+        }
+
         [Authorize("User", "Admin")]
         [HttpGet("Test")]
         public ActionResult Test()
         {
-            return Ok("Hello");
+            return Ok("User + Admin");
         }
 
         [Authorize("Admin")]
         [HttpGet("Test2")]
         public ActionResult Test2()
         {
-            return Ok("Goodbye");
+            return Ok("Admin");
+        }
+
+        [Authorize("User")]
+        [HttpGet("Test3")]
+        public ActionResult Test3()
+        {
+            return Ok("User");
+        }
+
+        [AllowAnonymous]
+        [HttpGet("Test4")]
+        public ActionResult Test4()
+        {
+            return Ok("AllowAnonymous");
         }
     }
 }

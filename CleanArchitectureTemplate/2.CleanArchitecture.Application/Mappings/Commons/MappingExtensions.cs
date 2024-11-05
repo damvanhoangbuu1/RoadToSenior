@@ -1,9 +1,9 @@
-﻿using _2.CleanArchitecture.Application.Common.Models;
+﻿using _2.CleanArchitecture.Application.DTOs.Common;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 
-namespace _2.CleanArchitecture.Application.Common.Mappings
+namespace _2.CleanArchitecture.Application.Mappings.Commons
 {
     public static class MappingExtensions
     {

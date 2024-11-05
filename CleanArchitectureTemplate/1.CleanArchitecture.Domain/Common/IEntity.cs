@@ -1,6 +1,6 @@
 ﻿namespace _1.CleanArchitecture.Domain.Common
 {
-    public abstract class BaseEntity
+    public interface IEntity
     {
         public Guid Id { get; set; }
     }
