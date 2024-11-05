@@ -1,4 +1,5 @@
-﻿using _2.CleanArchitecture.Application.Common.Interfaces;
+﻿using _1.CleanArchitecture.Domain.Common;
+using _2.CleanArchitecture.Application.Common.Interfaces;
 using _2.CleanArchitecture.Application.Features.IRepositories;
 using _2.CleanArchitecture.Application.Features.Services;
 using _3.CleanArchitecture.Infrastructure.Persistence;
@@ -28,6 +29,8 @@ namespace _3.CleanArchitecture.Infrastructure
 
             services.AddScoped<IApplicationDbContext>(provider =>
                 provider.GetRequiredService<ApplicationDbContext>());
+
+            services.Configure<Jwt>(configuration.GetSection("Jwt"));
 
             services.AddTransient<ICurrentUserService, CurrentUserService>();
             services.AddTransient<ITokenService, TokenService>();
