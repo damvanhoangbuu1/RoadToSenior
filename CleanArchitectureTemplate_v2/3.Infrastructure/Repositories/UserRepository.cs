@@ -1,12 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using _1.Domain.Entities;
+using _1.Domain.Interfaces;
+using _3.Infrastructure.Persistence;
+using _3.Infrastructure.Repositories.Common;
+using Microsoft.EntityFrameworkCore;
 
 namespace _3.Infrastructure.Repositories
 {
-    internal class UserRepository
+    public class UserRepository : Repository<User>, IUserRepository
     {
+        protected readonly ApplicationDbContext _context;
+
+        public UserRepository(ApplicationDbContext context) : base(context)
+        {
+            _context = context;
+        }
+
+        public async Task<User> GetByUsername(string username) => await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
     }
 }

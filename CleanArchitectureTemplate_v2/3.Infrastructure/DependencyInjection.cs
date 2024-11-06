@@ -1,9 +1,15 @@
-﻿using _1.Domain.Interfaces.Commons;
+﻿using _1.Domain.Interfaces;
+using _1.Domain.Interfaces.Commons;
 using _3.Infrastructure.Persistence;
+using _3.Infrastructure.Repositories;
 using _3.Infrastructure.Services;
+using _3.Infrastructure.Settings;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace _3.Infrastructure
 {
@@ -18,7 +24,28 @@ namespace _3.Infrastructure
                 options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"),
                                   b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
+            services.Configure<JwtSettings>(configuration.GetSection("JwtSettings"));
+
             services.AddTransient<ICurrentUserService, CurrentUserService>();
+            services.AddTransient<IJwtTokenService, JwtTokenService>();
+
+            services.AddScoped<IUserRepository,UserRepository>();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = configuration["Jwt:Issuer"],
+                        ValidAudience = configuration["Jwt:Audience"],
+                        IssuerSigningKey = new SymmetricSecurityKey(
+                            Encoding.UTF8.GetBytes(configuration["Jwt:Key"]))
+                    };
+                });
 
             return services;
         }

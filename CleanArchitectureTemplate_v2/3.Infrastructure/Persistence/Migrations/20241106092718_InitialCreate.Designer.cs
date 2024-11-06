@@ -12,7 +12,7 @@ using _3.Infrastructure.Persistence;
 namespace _3.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20241106080830_InitialCreate")]
+    [Migration("20241106092718_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -143,7 +143,7 @@ namespace _3.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("_1.Domain.Entities.User", b =>
@@ -207,7 +207,7 @@ namespace _3.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("_1.Domain.Entities.OrderItem", b =>

@@ -1,5 +1,6 @@
 ﻿using _1.Domain.Commons;
 using _1.Domain.Entities;
+using _1.Domain.Enums;
 using _1.Domain.Interfaces.Commons;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -17,6 +18,8 @@ namespace _3.Infrastructure.Persistence
         }
 
         public DbSet<User> Users => Set<User>();
+        public DbSet<Role> Roles => Set<Role>();
+        public DbSet<UserRole> UserRoles => Set<UserRole>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<OrderItem> OrderItems => Set<OrderItem>();
@@ -49,30 +52,87 @@ namespace _3.Infrastructure.Persistence
 
         public async Task Initialize()
         {
+            if (!Roles.Any())
+            {
+                foreach (RoleType roleEnum in Enum.GetValues(typeof(RoleType)))
+                {
+                    await Roles.AddAsync(new Role
+                    {
+                        Id = Guid.NewGuid(),
+                        RoleType = roleEnum,
+                    });
+                }
+
+                await SaveChangesAsync();
+            };
+
             if (!Users.Any())
             {
-                var initialUsers = new List<User>
+                var roleAdmin = Roles.FirstOrDefault(r => r.RoleType == RoleType.Admin);
+                var roleUser = Roles.FirstOrDefault(r => r.RoleType == RoleType.User);
+                var adminOnly = new User
                 {
-                    new User
-                    {
-                        Id = Guid.NewGuid(),
-                        Username = "admin",
-                        Email = "admin@example.com",
-                        PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
-                        CreatedBy = "system",
-                    },
-                    new User
-                    {
-                        Id = Guid.NewGuid(),
-                        Username = "john_doe",
-                        Email = "johndoe@example.com",
-                        PasswordHash = BCrypt.Net.BCrypt.HashPassword("Password@123"),
-                        CreatedBy = "system",
-                    }
+                    Id = Guid.NewGuid(),
+                    Username = "admin",
+                    Email = "admin@example.com",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
+                    CreatedBy = "system",
                 };
 
-                await Users.AddRangeAsync(initialUsers);
-                await SaveChangesAsync();
+                Users.Add(adminOnly);
+
+                UserRoles.Add(new UserRole
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = adminOnly.Id,
+                    RoleId = roleAdmin.Id,
+                });
+
+                var admin = new User
+                {
+                    Id = Guid.NewGuid(),
+                    Username = "admin1",
+                    Email = "admin1@example.com",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("Admin@123"),
+                    CreatedBy = "system",
+                };
+
+                Users.Add(admin);
+
+                UserRoles.AddRange(new List<UserRole> {
+                    new UserRole
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = admin.Id,
+                        RoleId = roleAdmin.Id,
+                    },
+                    new UserRole
+                    {
+                        Id = Guid.NewGuid(),
+                        UserId = admin.Id,
+                        RoleId = roleUser.Id,
+                    }
+                });
+
+                var user = new User
+                {
+                    Id = Guid.NewGuid(),
+                    Username = "string",
+                    Email = "string@example.com",
+                    PasswordHash = BCrypt.Net.BCrypt.HashPassword("string"),
+                    CreatedBy = "system",
+                };
+
+                Users.Add(user);
+
+                UserRoles.Add(new UserRole
+                {
+                    Id = Guid.NewGuid(),
+                    UserId = user.Id,
+                    RoleId = roleUser.Id,
+                });
+
+                SaveChanges();
             }
         }
     }

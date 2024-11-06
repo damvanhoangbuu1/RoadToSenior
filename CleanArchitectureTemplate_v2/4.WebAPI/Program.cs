@@ -1,6 +1,8 @@
 using Microsoft.OpenApi.Models;
 using _2.Application;
 using _3.Infrastructure;
+using _3.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +41,13 @@ builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 
 var app = builder.Build();
+
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    dbContext.Database.Migrate();
+    await dbContext.Initialize();
+}
 
 if (app.Environment.IsDevelopment())
 {

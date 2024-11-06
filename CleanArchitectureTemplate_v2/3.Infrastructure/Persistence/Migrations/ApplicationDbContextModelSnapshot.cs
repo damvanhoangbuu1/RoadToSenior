@@ -141,7 +141,7 @@ namespace _3.Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Role");
+                    b.ToTable("Roles");
                 });
 
             modelBuilder.Entity("_1.Domain.Entities.User", b =>
@@ -205,7 +205,7 @@ namespace _3.Infrastructure.Persistence.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("UserRole");
+                    b.ToTable("UserRoles");
                 });
 
             modelBuilder.Entity("_1.Domain.Entities.OrderItem", b =>
