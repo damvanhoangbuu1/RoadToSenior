@@ -15,6 +15,6 @@ namespace _3.Infrastructure.Repositories
             _context = context;
         }
 
-        public async Task<User> GetByUsername(string username) => await _context.Users.FirstOrDefaultAsync(x => x.Username == username);
+        public async Task<User> GetByUsername(string username) => await _context.Users.Include(p => p.UserRoles).ThenInclude(p => p.Role).FirstOrDefaultAsync();
     }
 }
