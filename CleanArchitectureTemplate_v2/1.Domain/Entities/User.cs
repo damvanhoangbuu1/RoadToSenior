@@ -1,5 +1,4 @@
 ﻿using _1.Domain.Commons;
-using _1.Domain.Enums;
 
 namespace _1.Domain.Entities
 {
@@ -8,6 +7,6 @@ namespace _1.Domain.Entities
         public string Username { get; set; }
         public string Email { get; set; }
         public string PasswordHash { get; set; }
-        public List<UserRole> Roles { get; set; } = new();
+        public List<UserRole> UserRoles { get; set; } = new();
     }
 }

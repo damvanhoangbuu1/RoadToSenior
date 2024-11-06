@@ -1,6 +1,6 @@
 ﻿namespace _1.Domain.Enums
 {
-    public enum UserRole
+    public enum RoleType
     {
         User,
         Admin

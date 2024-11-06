@@ -2,6 +2,7 @@
 {
     public enum OrderStatus
     {
+        New,
         Success,
         Error
     }

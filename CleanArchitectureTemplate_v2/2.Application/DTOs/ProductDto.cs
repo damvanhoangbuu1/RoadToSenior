@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace _2.Application.DTOs
+﻿namespace _2.Application.DTOs
 {
-    internal class ProductDto
+    public class ProductDto
     {
     }
 }
