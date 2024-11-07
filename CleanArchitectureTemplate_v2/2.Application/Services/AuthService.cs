@@ -54,7 +54,7 @@ namespace _2.Application.Services
             return Result<UserDto>.Success(_mapper.Map<User, UserDto>(user));
         }
 
-        public Result<UserDto> UpdateAccountInfor(UserDto userDto) {
+        public async Task<Result<UserDto>> UpdateAccountInfor(UserDto userDto) {
             try
             {
                 _unitOfWork.CreateTransaction();
@@ -85,7 +85,7 @@ namespace _2.Application.Services
                     _userRoleRepository.AddRange(userRoles);
                 }
 
-                _unitOfWork.Save();
+                await _unitOfWork.Save();
                 _unitOfWork.Commit();
             }
             catch (Exception)

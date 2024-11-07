@@ -132,7 +132,7 @@ namespace _3.Infrastructure.Persistence
                     RoleId = roleUser.Id,
                 });
 
-                SaveChanges();
+                await SaveChangesAsync();
             }
         }
     }
