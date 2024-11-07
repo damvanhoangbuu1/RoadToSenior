@@ -41,9 +41,14 @@ namespace _3.Infrastructure.Repositories
         {
             _objTran = _dbContext.Database.BeginTransaction();
         }
-        public async Task Save()
+        public async Task SaveAsync()
         {
             await _dbContext.SaveChangesAsync();
+        }
+
+        public void Save()
+        {
+            _dbContext.SaveChanges();
         }
 
         public void Commit()

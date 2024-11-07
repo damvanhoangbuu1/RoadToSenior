@@ -35,9 +35,9 @@ namespace _4.WebAPI.Controllers
 
         [Authorize]
         [HttpPost("account-infor")]
-        public async Task<ActionResult<Result<UserDto>>> UpdateAccountInfor([FromBody] UserDto userDto)
+        public ActionResult<Result<UserDto>> UpdateAccountInfor([FromBody] UserDto userDto)
         {
-            var response = await _authService.UpdateAccountInfor(userDto);
+            var response = _authService.UpdateAccountInfor(userDto);
             return Ok(response);
         }
     }

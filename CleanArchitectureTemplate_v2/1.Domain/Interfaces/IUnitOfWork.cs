@@ -4,7 +4,8 @@ namespace _1.Domain.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {
-        Task Save();
+        void Save();
+        Task SaveAsync();
         void Commit();
         void Rollback();
         Task CommitAsync();

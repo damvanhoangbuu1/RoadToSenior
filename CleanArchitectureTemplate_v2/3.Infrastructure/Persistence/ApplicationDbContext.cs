@@ -24,7 +24,7 @@ namespace _3.Infrastructure.Persistence
         public DbSet<Order> Orders => Set<Order>();
         public DbSet<OrderItem> OrderItems => Set<OrderItem>();
 
-        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
+        private void OnBeforeSaving()
         {
             foreach (var entry in ChangeTracker.Entries<BaseAuditableEntity>())
             {
@@ -41,6 +41,18 @@ namespace _3.Infrastructure.Persistence
                         break;
                 }
             }
+        }
+
+        public override int SaveChanges()
+        {
+            OnBeforeSaving();
+
+            return base.SaveChanges();
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new())
+        {
+            OnBeforeSaving();
 
             return await base.SaveChangesAsync(cancellationToken);
         }

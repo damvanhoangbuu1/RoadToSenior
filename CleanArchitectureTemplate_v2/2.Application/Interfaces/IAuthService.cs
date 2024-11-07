@@ -7,6 +7,6 @@ namespace _2.Application.Interfaces
     {
         Result<string> Login(string username, string password);
         Result<UserDto> GetAccountInfor();
-        Task<Result<UserDto>> UpdateAccountInfor(UserDto userDto);
+        Result<UserDto> UpdateAccountInfor(UserDto userDto);
     }
 }
