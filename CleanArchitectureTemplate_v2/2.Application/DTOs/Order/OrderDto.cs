@@ -1,4 +1,4 @@
-﻿namespace _2.Application.DTOs
+﻿namespace _2.Application.DTOs.Order
 {
     public class OrderDto
     {

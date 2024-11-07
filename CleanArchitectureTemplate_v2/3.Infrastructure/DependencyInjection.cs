@@ -1,5 +1,4 @@
 ﻿using _1.Domain.Interfaces;
-using _1.Domain.Interfaces.Commons;
 using _3.Infrastructure.Persistence;
 using _3.Infrastructure.Repositories;
 using _3.Infrastructure.Services;
@@ -29,7 +28,7 @@ namespace _3.Infrastructure
             services.AddTransient<ICurrentUserService, CurrentUserService>();
             services.AddTransient<IJwtTokenService, JwtTokenService>();
 
-            services.AddScoped<IUserRepository,UserRepository>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>

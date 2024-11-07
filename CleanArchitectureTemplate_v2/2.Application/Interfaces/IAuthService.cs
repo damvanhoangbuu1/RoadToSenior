@@ -1,11 +1,12 @@
 ﻿using _2.Application.Common;
-using _2.Application.DTOs;
+using _2.Application.DTOs.User;
 
 namespace _2.Application.Interfaces
 {
     public interface IAuthService
     {
-        Task<Result<string>> Login(string username, string password);
+        Result<string> Login(string username, string password);
         Result<UserDto> GetAccountInfor();
+        Result<UserDto> UpdateAccountInfor(UserDto userDto);
     }
 }

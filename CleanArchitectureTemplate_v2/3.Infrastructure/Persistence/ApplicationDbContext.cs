@@ -1,7 +1,7 @@
 ﻿using _1.Domain.Commons;
 using _1.Domain.Entities;
 using _1.Domain.Enums;
-using _1.Domain.Interfaces.Commons;
+using _1.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 

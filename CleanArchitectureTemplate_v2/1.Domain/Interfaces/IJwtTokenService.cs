@@ -1,6 +1,6 @@
 ﻿using _1.Domain.Entities;
 
-namespace _1.Domain.Interfaces.Commons
+namespace _1.Domain.Interfaces
 {
     public interface IJwtTokenService
     {

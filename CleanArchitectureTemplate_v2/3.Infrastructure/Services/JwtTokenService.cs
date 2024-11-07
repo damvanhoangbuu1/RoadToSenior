@@ -1,5 +1,5 @@
 ﻿using _1.Domain.Entities;
-using _1.Domain.Interfaces.Commons;
+using _1.Domain.Interfaces;
 using _3.Infrastructure.Settings;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

@@ -13,4 +13,17 @@
         public static Result<T> Failure(IEnumerable<string> errors) =>
             new() { Succeeded = false, Errors = errors.ToList() };
     }
+
+    public class Result
+    {
+        public bool Succeeded { get; private set; }
+        public string Message { get; private set; }
+        public List<string> Errors { get; private set; }
+
+        public static Result Success(string message = null) =>
+            new() { Succeeded = true, Message = message };
+
+        public static Result Failure(IEnumerable<string> errors) =>
+            new() { Succeeded = false, Errors = errors.ToList() };
+    }
 }

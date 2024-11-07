@@ -1,9 +1,9 @@
 ﻿using _1.Domain.Commons;
-using _1.Domain.Interfaces.Commons;
+using _1.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace _3.Infrastructure.Repositories.Common
+namespace _3.Infrastructure.Repositories
 {
     public class Repository<T> : IRepository<T> where T : class, IEntity
     {

@@ -1,4 +1,4 @@
-﻿using _1.Domain.Interfaces.Commons;
+﻿using _1.Domain.Interfaces;
 
 namespace _3.Infrastructure.Common
 {

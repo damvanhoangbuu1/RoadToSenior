@@ -1,8 +1,8 @@
 ﻿using _2.Application.Common;
-using _2.Application.DTOs;
+using _2.Application.DTOs.Auth;
+using _2.Application.DTOs.User;
 using _2.Application.Interfaces;
 using _4.WebAPI.Attributes;
-using _4.WebAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _4.WebAPI.Controllers
@@ -19,9 +19,9 @@ namespace _4.WebAPI.Controllers
         }
 
         [HttpPost("Login")]
-        public async Task<ActionResult<Result<string>>> Login([FromBody] AuthModel auth)
+        public ActionResult<Result<string>> Login([FromBody] LoginRequest request)
         {
-            var response = await _authService.Login(auth.Username, auth.Password);
+            var response = _authService.Login(request.Username, request.Password);
             return Ok(response);
         }
 
@@ -30,6 +30,14 @@ namespace _4.WebAPI.Controllers
         public ActionResult<Result<UserDto>> GetAccountInfo()
         {
             var response = _authService.GetAccountInfor();
+            return Ok(response);
+        }
+
+        [Authorize]
+        [HttpPost("account-infor")]
+        public ActionResult<Result<UserDto>> UpdateAccountInfor([FromBody] UserDto userDto)
+        {
+            var response = _authService.UpdateAccountInfor(userDto);
             return Ok(response);
         }
     }

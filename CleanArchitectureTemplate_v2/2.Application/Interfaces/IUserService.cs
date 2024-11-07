@@ -1,4 +1,4 @@
-﻿using _2.Application.DTOs;
+﻿using _2.Application.DTOs.User;
 
 namespace _2.Application.Interfaces
 {

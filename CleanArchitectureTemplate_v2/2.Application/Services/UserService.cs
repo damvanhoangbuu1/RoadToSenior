@@ -1,6 +1,6 @@
-﻿using _1.Domain.Interfaces;
-using _1.Domain.Interfaces.Commons;
-using _2.Application.DTOs;
+﻿using _1.Domain.Entities;
+using _1.Domain.Interfaces;
+using _2.Application.DTOs.User;
 using _2.Application.Interfaces;
 using AutoMapper;
 
@@ -8,11 +8,11 @@ namespace _2.Application.Services
 {
     public class UserService : IUserService
     {
-        private readonly IUserRepository _userRepository;
+        private readonly IRepository<User> _userRepository;
         private readonly ICurrentUserService _currentUserService;
         private readonly IMapper _mapper;
 
-        public UserService(IUserRepository userRepository,
+        public UserService(IRepository<User> userRepository,
                            ICurrentUserService currentUserService,
                            IMapper mapper)
         {

@@ -1,13 +1,18 @@
-using Microsoft.OpenApi.Models;
 using _2.Application;
 using _3.Infrastructure;
 using _3.Infrastructure.Persistence;
-using Microsoft.EntityFrameworkCore;
 using _4.WebAPI.Middlewares;
+using FluentValidation.AspNetCore;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+//builder.Services.AddControllers();
+builder.Services.AddControllers()
+        .AddFluentValidation(fv => fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -58,12 +63,13 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseAuthentication();
-app.UseAuthorization();
-
 app.UseMiddleware<RequestLoggingMiddleware>();
 app.UseMiddleware<CurrentUserMiddleware>();
+app.UseMiddleware<ValidationBehaviorMiddleware>();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 

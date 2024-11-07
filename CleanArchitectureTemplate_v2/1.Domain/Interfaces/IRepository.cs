@@ -1,7 +1,7 @@
 ﻿using _1.Domain.Commons;
 using System.Linq.Expressions;
 
-namespace _1.Domain.Interfaces.Commons
+namespace _1.Domain.Interfaces
 {
     public interface IRepository<T> where T : class, IEntity
     {
