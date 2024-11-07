@@ -3,6 +3,7 @@ using _2.Application;
 using _3.Infrastructure;
 using _3.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
+using _4.WebAPI.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -57,7 +58,12 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseMiddleware<RequestLoggingMiddleware>();
+app.UseMiddleware<CurrentUserMiddleware>();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.MapControllers();
 

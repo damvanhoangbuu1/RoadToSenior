@@ -6,6 +6,7 @@ using _2.Application.DTOs;
 using _2.Application.Interfaces;
 using _3.Infrastructure.Services;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace _2.Application.Services
 {
@@ -39,6 +40,19 @@ namespace _2.Application.Services
 
             var token = _jwtTokenService.GenerateJwtToken(user);
             return Result<string>.Success(token);
+        }
+
+        public Result<UserDto> GetAccountInfor()
+        {
+            var user = _userRepository.GetIQueryable().Include(p => p.UserRoles).ThenInclude(p => p.Role).FirstOrDefault(p => p.Id == _currentUserService.UserId);
+
+            if (user == null)
+            {
+                return Result<UserDto>.Failure(new string[] { "Your account not found" });
+            }
+            var useDto = _mapper.Map<User, UserDto>(user);
+
+            return Result<UserDto>.Success(_mapper.Map<User, UserDto>(user));
         }
     }
 }

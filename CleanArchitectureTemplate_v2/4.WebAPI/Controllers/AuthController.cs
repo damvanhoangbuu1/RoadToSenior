@@ -1,8 +1,8 @@
 ﻿using _2.Application.Common;
+using _2.Application.DTOs;
 using _2.Application.Interfaces;
-using _2.Application.Services;
+using _4.WebAPI.Attributes;
 using _4.WebAPI.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace _4.WebAPI.Controllers
@@ -22,6 +22,14 @@ namespace _4.WebAPI.Controllers
         public async Task<ActionResult<Result<string>>> Login([FromBody] AuthModel auth)
         {
             var response = await _authService.Login(auth.Username, auth.Password);
+            return Ok(response);
+        }
+
+        [Authorize]
+        [HttpGet("account-infor")]
+        public ActionResult<Result<UserDto>> GetAccountInfo()
+        {
+            var response = _authService.GetAccountInfor();
             return Ok(response);
         }
     }

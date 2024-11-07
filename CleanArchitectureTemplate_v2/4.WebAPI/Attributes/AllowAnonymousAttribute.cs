@@ -1,6 +1,7 @@
 ﻿namespace _4.WebAPI.Attributes
 {
-    public class AllowAnonymousAttribute
+    [AttributeUsage(AttributeTargets.Method)]
+    public class AllowAnonymousAttribute : Attribute
     {
     }
 }
