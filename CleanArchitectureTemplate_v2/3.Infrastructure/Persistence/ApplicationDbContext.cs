@@ -31,12 +31,12 @@ namespace _3.Infrastructure.Persistence
                 switch (entry.State)
                 {
                     case EntityState.Added:
-                        entry.Entity.CreatedBy = _currentUserService.UserId.ToString();
+                        entry.Entity.CreatedBy = _currentUserService.UserId == Guid.Empty ? "system" : _currentUserService.UserId.ToString();
                         entry.Entity.Created = DateTime.UtcNow;
                         break;
 
                     case EntityState.Modified:
-                        entry.Entity.LastModifiedBy = _currentUserService.UserId.ToString();
+                        entry.Entity.LastModifiedBy = _currentUserService.UserId == Guid.Empty ? "system" : _currentUserService.UserId.ToString();
                         entry.Entity.LastModified = DateTime.UtcNow;
                         break;
                 }
