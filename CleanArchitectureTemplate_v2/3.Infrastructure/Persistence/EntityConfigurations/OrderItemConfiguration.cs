@@ -8,18 +8,28 @@ namespace _3.Infrastructure.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<OrderItem> builder)
         {
+            builder.ToTable("order_items");
+
             builder.HasOne(p => p.Order)
                    .WithMany(c => c.Items)
                    .HasForeignKey(c => c.OrderId)
                    .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Property(p => p.OrderId)
+                   .HasColumnName("order_id");
 
             builder.HasOne(p => p.Product)
                    .WithMany(c => c.Items)
                    .HasForeignKey(c => c.ProductId)
                    .OnDelete(DeleteBehavior.Cascade);
 
+            builder.Property(p => p.ProductId)
+                   .HasColumnName("product_id");
+
             builder.Property(u => u.Quantity)
-                   .IsRequired();
+                   .IsRequired()
+                   .HasColumnType("decimal(5,0)")
+                   .HasColumnName("quantity");
         }
     }
 }

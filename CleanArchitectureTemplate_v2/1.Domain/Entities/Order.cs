@@ -8,6 +8,7 @@ namespace _1.Domain.Entities
         public Guid UserId { get; set; }
         public OrderStatus Status { get; set; }
         public decimal TotalMoney {  get; set; }
+        public User User { get; set; }
         public List<OrderItem> Items { get; set;} = new List<OrderItem>();
     }
 }

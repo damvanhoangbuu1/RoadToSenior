@@ -1,0 +1,2 @@
+dotnet ef migrations add init-database --project 3.Infrastructure --startup-project 4.WebAPI --output-dir Persistence\Migrations
+dotnet ef migrations remove --project 3.Infrastructure --startup-project 4.WebAPI

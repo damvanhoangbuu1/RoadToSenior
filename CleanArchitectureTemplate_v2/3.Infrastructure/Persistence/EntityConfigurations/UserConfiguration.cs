@@ -8,17 +8,31 @@ namespace _3.Infrastructure.Persistence.EntityConfigurations
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
+            builder.ToTable("users");
+
             builder.Property(u => u.Username)
-                .HasColumnType("character varying(20)")
-                .IsRequired();
+                   .HasColumnType("character varying(20)")
+                   .HasColumnName("username")
+                   .IsRequired();
 
             builder.Property(u => u.Email)
-                .HasColumnType("character varying(20)")
-                .IsRequired(false);
+                   .HasColumnType("character varying(20)")
+                   .HasColumnName("email")
+                   .IsRequired(false);
 
             builder.Property(u => u.PasswordHash)
-                .IsRequired();
+                   .HasColumnName("password_hash")
+                   .IsRequired();
 
+            builder.HasMany(p => p.UserRoles)
+                   .WithOne(p => p.User)
+                   .HasForeignKey(p => p.UserId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(p => p.Orders)
+                   .WithOne(p => p.User)
+                   .HasForeignKey(p => p.UserId)
+                   .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -8,5 +8,6 @@ namespace _1.Domain.Entities
         public string Email { get; set; }
         public string PasswordHash { get; set; }
         public List<UserRole> UserRoles { get; set; } = new();
+        public List<Order> Orders { get; set; }
     }
 }

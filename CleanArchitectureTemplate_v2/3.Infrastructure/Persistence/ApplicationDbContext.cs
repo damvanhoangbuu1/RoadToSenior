@@ -22,7 +22,7 @@ namespace _3.Infrastructure.Persistence
         public DbSet<UserRole> UserRoles => Set<UserRole>();
         public DbSet<Product> Products => Set<Product>();
         public DbSet<Order> Orders => Set<Order>();
-        public DbSet<OrderItem> OrderItems => Set<OrderItem>();
+        public DbSet<OrderItem> OrderItems => Set<OrderItem>(); 
 
         private void OnBeforeSaving()
         {
@@ -32,12 +32,12 @@ namespace _3.Infrastructure.Persistence
                 {
                     case EntityState.Added:
                         entry.Entity.CreatedBy = _currentUserService.UserId == Guid.Empty ? "system" : _currentUserService.UserId.ToString();
-                        entry.Entity.Created = DateTime.UtcNow;
+                        entry.Entity.Created = DateTime.Now;
                         break;
 
                     case EntityState.Modified:
                         entry.Entity.LastModifiedBy = _currentUserService.UserId == Guid.Empty ? "system" : _currentUserService.UserId.ToString();
-                        entry.Entity.LastModified = DateTime.UtcNow;
+                        entry.Entity.LastModified = DateTime.Now;
                         break;
                 }
             }
@@ -60,6 +60,50 @@ namespace _3.Infrastructure.Persistence
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+            {
+                if (typeof(BaseEntity).IsAssignableFrom(entityType.ClrType))
+                {
+                    modelBuilder.Entity(entityType.ClrType)
+                                .HasKey("Id");
+
+                    modelBuilder.Entity(entityType.ClrType)
+                                .Property("Id")
+                                .HasColumnName("id");
+                }
+
+                if (typeof(BaseAuditableEntity).IsAssignableFrom(entityType.ClrType))
+                {
+                    modelBuilder.Entity(entityType.ClrType)
+                                .HasKey("Id");
+
+                    modelBuilder.Entity(entityType.ClrType)
+                                .Property("Id")
+                                .HasColumnName("id");
+
+                    modelBuilder.Entity(entityType.ClrType)
+                                .Property("Created")
+                                .HasColumnName("created")
+                                .HasColumnType("timestamp without time zone")
+                                .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    modelBuilder.Entity(entityType.ClrType)
+                                .Property("LastModified")
+                                .HasColumnName("modified")
+                                .HasColumnType("timestamp without time zone");
+
+                    modelBuilder.Entity(entityType.ClrType)
+                                .Property("CreatedBy")
+                                .HasColumnName("created_by")
+                                .HasColumnType("character varying");
+
+                    modelBuilder.Entity(entityType.ClrType)
+                                .Property("LastModifiedBy")
+                                .HasColumnName("modified_by")
+                                .HasColumnType("character varying");
+                }
+            }
         }
 
         public async Task Initialize()
@@ -72,6 +116,7 @@ namespace _3.Infrastructure.Persistence
                     {
                         Id = Guid.NewGuid(),
                         RoleType = roleEnum,
+                        RoleName = roleEnum.ToString(),
                     });
                 }
 
